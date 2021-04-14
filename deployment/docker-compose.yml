@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+    server:
+        build:
+            context: ..
+            dockerfile: build/server.dockerfile
+        image: trade_server
+        container_name: trade_server
+        ports:
+            - 127.0.0.1:8888:8080
+        networks:
+            - trade_net
+        environment:
+            - CURRENCY_TOKEN=${CURRENCY_TOKEN}
+            - SECRET=${SECRET}
+            - FLASK_DEBUG=1
+    bot:
+        build:
+            context: ..
+            dockerfile: build/bot.dockerfile
+        image: trade_bot
+        container_name: trade_bot
+        networks:
+            - trade_net
+        environment:
+            - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+            - API_URL=http://server:8080
+        depends_on:
+            - server
+networks:
+    trade_net:
+        name: trade_net

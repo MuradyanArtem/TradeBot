@@ -1,3 +1,11 @@
+.travis.yaml
+.swagger-codegen-ignore
+README.md
+tox.ini
+git_push.sh
+test-requirements.txt
+setup.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -9,6 +17,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+build/
 develop-eggs/
 dist/
 downloads/
@@ -61,7 +70,3 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
-
-
-# DB
-db.sqlite

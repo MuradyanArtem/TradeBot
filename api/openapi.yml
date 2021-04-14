@@ -1,0 +1,145 @@
+openapi: 3.0.2
+info:
+  version: "0.1"
+  title: Trade API
+  description: Implementation of trade api for study purposes.
+tags:
+  - name: "users"
+    description: "User session and wallet"
+  - name: "transactions"
+paths:
+  /users/account:
+    post:
+      tags:
+        - "users"
+      description: "Register user"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Signup"
+      responses:
+        201:
+          description: "Success register"
+        404:
+          description: "Not found"
+  /users/session:
+    post:
+      tags:
+        - "users"
+      description: "Login user"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Signin"
+      responses:
+        201:
+          description: "Success login"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal server error"
+    delete:
+      tags:
+        - "users"
+      description: "Logout user"
+      responses:
+        200:
+          description: "Success logout"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal server error"
+  /users/wallet:
+    get:
+      tags:
+        - "users"
+      description: "Get currencies"
+      responses:
+        200:
+          description: "Show all user currencies"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Currencies"
+  /transactions:
+    post:
+      tags:
+        - "transactions"
+      description: "Make transaction"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Transaction"
+      responses:
+        201:
+          description: Success transaction
+        401:
+          description: "Unauthorized"
+        409:
+          description: "Not enough money to make transaction"
+components:
+  schemas:
+    Transaction:
+      type: object
+      required:
+        - from
+        - to
+        - amount
+        - action
+      properties:
+        from:
+          type: string
+          maxLength: 3
+          example: USD
+        to:
+          type: string
+          maxLength: 3
+          example: RUB
+        amount:
+          type: number
+          example: 1000
+    Signin:
+      type: object
+      required:
+        - password
+        - username
+      properties:
+        username:
+          type: string
+          format: email
+        password:
+          type: string
+    Signup:
+      type: object
+      required:
+        - password
+        - repeat_password
+        - username
+      properties:
+        username:
+          type: string
+          format: email
+        password:
+          type: string
+        repeat_password:
+          type: string
+    Currencies:
+      type: array
+      items:
+          $ref: "#/components/schemas/Currency"
+    Currency:
+      type: object
+      required:
+        - amount
+        - code
+      properties:
+        amount:
+          type: number
+          example: 1000
+        code:
+          type: string
+          example: "RUB"
+          maxLength: 3
