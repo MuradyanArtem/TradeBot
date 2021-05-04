@@ -1,11 +1,5 @@
 # TradeBot
 
-
-## Requirments
-
-- Docker
-- Docker Compose
-
 ## Before Start
 
 - Get telegram token from BotFather.
